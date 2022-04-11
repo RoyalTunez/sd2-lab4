@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Stocks {
     final double CHANGE_LOWER_BOUND = 0.99;
     final double CHANGE_UPPER_BOUND = 1.01;
-    final long CHANGE_FREQUENCY = 10;
+    final long CHANGE_FREQUENCY = 1000;
 
     private long amount = 0;
     private double price = 0.0;
@@ -38,8 +38,10 @@ public class Stocks {
         return companyName;
     }
 
-    public Stocks(String companyName) {
+    public Stocks(String companyName, long amount, double argPrice) {
         this.companyName = companyName;
+        this.price = argPrice;
+        this.amount = amount;
 
         class ChangePriceTask extends TimerTask {
             @Override
@@ -73,8 +75,10 @@ public class Stocks {
 
     @Override
     public String toString() {
-        return "<h3>Company: " + companyName + "</h3>stocks: " + String.valueOf(amount) + "<br>price: " + String.valueOf(price) + "<br><h3>Total: "+ String.valueOf(amount * price) +"</h3>";
+        return "<h3>Company: " + companyName + "</h3>stocks: " + String.valueOf(amount) + "<br>price: " + String.valueOf(price) + "<br><h3>Total: "+ String.valueOf(getTotalPrice()) +"</h3>";
     }
 
-
+    public double getTotalPrice() {
+        return price * amount;
+    }
 }
